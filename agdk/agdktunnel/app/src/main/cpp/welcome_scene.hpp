@@ -20,7 +20,6 @@
 #include <string>
 
 #include "engine.hpp"
-#include "our_shader.hpp"
 #include "tex_quad.hpp"
 #include "ui_scene.hpp"
 #include "util.hpp"
@@ -44,7 +43,6 @@ protected:
     UiWidget *mNameEdit;
     int mTestButtonId;
     int mQuitButtonId;
-    int mMemoryButtonId;
 
     OwnedGameTextInputState mTextInputState;
 

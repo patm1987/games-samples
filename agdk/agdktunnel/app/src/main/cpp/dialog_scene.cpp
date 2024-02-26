@@ -16,7 +16,9 @@
 
 #include "anim.hpp"
 #include "dialog_scene.hpp"
+#include "gfx_manager.hpp"
 #include "play_scene.hpp"
+#include "tunnel_engine.hpp"
 
 #define BUTTON_FONT_SCALE 0.6f
 #define TEXT_FONT_SCALE 0.6f
@@ -110,6 +112,8 @@ void DialogScene::OnCreateWidgets() {
 }
 
 void DialogScene::RenderBackground() {
+    GfxManager *gfxManager = TunnelEngine::GetInstance()->GetGfxManager();
+    gfxManager->SetRenderState(GfxManager::kGfxType_BasicTrisNoDepthTest);
     RenderBackgroundAnimation(mShapeRenderer);
 }
 

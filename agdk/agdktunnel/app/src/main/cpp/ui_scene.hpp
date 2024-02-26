@@ -21,6 +21,7 @@
 #include "engine.hpp"
 #include "shape_renderer.hpp"
 #include "text_renderer.hpp"
+#include "tunnel_engine.hpp"
 #include "util.hpp"
 
 #define UI_DIR_UP 0
@@ -48,8 +49,7 @@ protected:
     // clicked if the user presses ENTER on the DPAD when not in focus mode.
     int mDefaultButton;
 
-    // renderers and shaders we need
-    TrivialShader *mTrivialShader;
+    // renderers we need
     TextRenderer *mTextRenderer;
     ShapeRenderer *mShapeRenderer;
 
@@ -116,7 +116,7 @@ public:
     UiWidget *GetWidgetById(int id);
 
     void SetInputSdkContext() {
-        NativeEngine::GetInstance()->SetInputSdkContext(INPUT_CONTEXT_UI_SCENE);
+        TunnelEngine::GetInstance()->SetInputSdkContext(INPUT_CONTEXT_UI_SCENE);
     }
 
 private:
@@ -325,7 +325,7 @@ public:
     static const int FOCUS_YES = 1;
     static const int FOCUS_NO = 2;
 
-    void Render(TrivialShader *trivialShader, TextRenderer *textRenderer,
+    void Render(TextRenderer *textRenderer,
                 ShapeRenderer *shapeRenderer, int focus, float transitionFactor);
 };
 

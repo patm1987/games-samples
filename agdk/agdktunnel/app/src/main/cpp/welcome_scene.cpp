@@ -16,7 +16,9 @@
 
 #include "anim.hpp"
 #include "dialog_scene.hpp"
+#include "gfx_manager.hpp"
 #include "play_scene.hpp"
+#include "tunnel_engine.hpp"
 #include "welcome_scene.hpp"
 
 #include "blurb.inl"
@@ -88,6 +90,8 @@ WelcomeScene::~WelcomeScene() {
 }
 
 void WelcomeScene::RenderBackground() {
+    GfxManager *gfxManager = TunnelEngine::GetInstance()->GetGfxManager();
+    gfxManager->SetRenderState(GfxManager::kGfxType_BasicTrisNoDepthTest);
     RenderBackgroundAnimation(mShapeRenderer);
 }
 
@@ -129,7 +133,7 @@ void WelcomeScene::OnButtonClicked(int id) {
 
     if (id == mPlayButtonId) {
         DataLoaderStateMachine *dataStateMachine =
-                NativeEngine::GetInstance()->GetDataStateMachine();
+            TunnelEngine::GetInstance()->GetDataStateMachine();
         mgr->RequestNewScene(new PlayScene(dataStateMachine->getLevelLoaded()));
     } else if (id == mStoryButtonId) {
         mgr->RequestNewScene((new DialogScene())->SetText(BLURB_STORY)->SetSingleButton(S_OK,
@@ -157,8 +161,6 @@ void WelcomeScene::OnButtonClicked(int id) {
     } else if (id == mQuitButtonId) {
         auto activity = NativeEngine::GetInstance()->GetAndroidApp()->activity;
         GameActivity_finish(activity);
-    } else if (id == mMemoryButtonId) {
-        NativeEngine::GetInstance()->GetMemoryConsumer()->SetActive(true);
     }
 }
 
@@ -197,17 +199,12 @@ void WelcomeScene::UpdateWidgetStates() {
 
     AddNav(mStoryButtonId, UI_DIR_UP, mNameEdit->GetId());
     AddNav(mStoryButtonId, UI_DIR_RIGHT, mPlayButtonId);
-    AddNav(mStoryButtonId, UI_DIR_DOWN, mMemoryButtonId);
-
-    AddNav(mMemoryButtonId, UI_DIR_UP, mStoryButtonId);
-    AddNav(mMemoryButtonId, UI_DIR_RIGHT, mQuitButtonId);
 
     AddNav(mAboutButtonId, UI_DIR_UP, mTestButtonId);
     AddNav(mAboutButtonId, UI_DIR_DOWN, mQuitButtonId);
     AddNav(mAboutButtonId, UI_DIR_LEFT, mPlayButtonId);
 
     AddNav(mQuitButtonId, UI_DIR_UP, mAboutButtonId);
-    AddNav(mQuitButtonId, UI_DIR_LEFT, mMemoryButtonId);
 
     AddNav(mTestButtonId, UI_DIR_UP, mNameEdit->GetId());
     AddNav(mTestButtonId, UI_DIR_DOWN, mAboutButtonId);
@@ -241,12 +238,6 @@ void WelcomeScene::OnCreateWidgets() {
     // story button
     mStoryButtonId = NewWidget()->SetTextColor(BUTTON_COLOR)->SetText(S_STORY)
             ->SetCenter(BUTTON_STORY_POS)->SetSize(BUTTON_SIDEBUTTON_SIZE)
-            ->SetFontScale(BUTTON_FONT_SCALE)->SetIsButton(true)
-            ->SetTransition(UiWidget::TRANS_FROM_RIGHT)->GetId();
-
-    // memory button
-    mMemoryButtonId = NewWidget()->SetTextColor(BUTTON_COLOR)->SetText(S_MEMORY)
-            ->SetCenter(BUTTON_MEMORY_POS)->SetSize(BUTTON_SIDEBUTTON_SIZE)
             ->SetFontScale(BUTTON_FONT_SCALE)->SetIsButton(true)
             ->SetTransition(UiWidget::TRANS_FROM_RIGHT)->GetId();
 

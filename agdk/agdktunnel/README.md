@@ -10,7 +10,6 @@ AGDKTunnel uses the following AGDK libraries:
 * GameActivity
 * GameController
 * GameTextInput
-* Memory Advice
 * Oboe
 
 AGDKTunnel can optionally use the following Play libraries:
@@ -23,42 +22,15 @@ AGDKTunnel uses the [Library Wrapper](https://developer.android.com/games/develo
 tool to generate interface files to call the Vibrator API in order to provide haptic
 feedback on in-game collisions.
 
+## Prerequisites
+
+1. cd to `agdk/third_party`
+2. git clone https://github.com/zeux/volk.git
+3. git clone https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+
 ## Building
 
-Open the `agdktunnel' directory in Android Studio 2021.2 or higher.
-
-## Memory Advice
-
-AGDKTunnel integrates the Memory Advice library to receive hints when memory usage is becoming
-critical and risks being terminated by the OS due to low available memory.
-
-Memory consumption is artificially inflated using the MemoryConsumer class, which also displays
-status information onscreen. This is off by default. The **Consume Memory** button in the title
-screen can be used to enable memory consumption.
-
-When active, the Memory Consumer allocates at random intervals blocks of variable sizes and
-places them into two memory pools, dubbed 'General' and 'Cache'. If the Memory Advice library
-signals a critical memory situation, the Memory Consumer frees all allocations from the Cache
-pool. After the first critical memory warning, the Memory Consumer ceases to allocate into the
-General pool and only allocates into the Cache pool.
-
-When active, the Memory Consumer displays statistics on screen in the UI and Play scenes. The
-information is formatted as follows:
-
-`(status) (crit warning count) (percent available) (General pool size) (Cache pool size)`
-
-**(status)**
-`OK|WARN|CRIT`
-Memory State reported by the Memory Advice library
-**(crit warning count)**
-The number of times Memory Advice has reported a critical memory shortage
-**(percent available)**
-The estimated percentage of available memory reported by Memory Advice, this
-is updated every five seconds
-**(General pool size)**
-Total allocation size of the General pool in megabytes
-**(Cache pool size)**
-Total allocation size of the Cache pool in megabytes
+Open the `agdktunnel' directory in Android Studio 2022.3 or higher.
 
 ## Android Performance Tuner (APT)
 
