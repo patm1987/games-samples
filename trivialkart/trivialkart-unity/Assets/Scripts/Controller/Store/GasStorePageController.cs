@@ -50,7 +50,7 @@ public class GasStorePageController : MonoBehaviour
         _currentCost = Math.Ceiling((Gas.FullGasLevel - _gas.GasLevel) * GameDataController.GetGameData().Discount);
         gasPrice.text = "* " + _currentCost;
         panelGasPrice.text = "Would you like to fill the gas tank with  " + _currentCost + "  coins";
-        _gas.SetGasLevelHelper(_gasLevelImage, gasLevelImageObj);
+        _gas.SetGasLevelHelper();
         panelFillGas.SetActive(false);
         cannotAffordWarning.SetActive(false);
     }
